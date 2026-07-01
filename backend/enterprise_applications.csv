@@ -1,0 +1,109 @@
+app_id,vendor,application,base_risk
+APP001,AWS,HR Portal,100.0
+APP002,AWS,Finance Portal,100.0
+APP003,AWS,CRM Service,100.0
+APP004,Check Point,Admin Portal,97.88
+APP005,Check Point,Billing Service,97.88
+APP006,Check Point,HR Portal,97.88
+APP007,Google Cloud,Customer Portal,82.51
+APP008,Google Cloud,Search Platform,82.51
+APP009,Google Cloud,Identity Service,82.51
+APP010,Oracle,Admin Portal,76.45
+APP011,Oracle,Storage Platform,76.45
+APP012,Oracle,Search Platform,76.45
+APP013,Cisco,Identity Service,73.77
+APP014,Cisco,Admin Portal,73.77
+APP015,Cisco,Notification Service,73.77
+APP016,CrowdStrike,Analytics Platform,72.92
+APP017,CrowdStrike,Notification Service,72.92
+APP018,CrowdStrike,HR Portal,72.92
+APP019,Cloudflare,Storage Platform,63.33
+APP020,Cloudflare,Admin Portal,63.33
+APP021,Cloudflare,Finance Portal,63.33
+APP022,Microsoft Azure,HR Portal,55.29
+APP023,Microsoft Azure,Notification Service,55.29
+APP024,Microsoft Azure,Analytics Platform,55.29
+APP025,IBM Cloud,Analytics Platform,52.33
+APP026,IBM Cloud,Notification Service,52.33
+APP027,IBM Cloud,Payment Service,52.33
+APP028,Fortinet,Storage Platform,50.49
+APP029,Fortinet,Identity Service,50.49
+APP030,Fortinet,Customer Portal,50.49
+APP031,Snowflake,Analytics Platform,50.21
+APP032,Snowflake,Customer Portal,50.21
+APP033,Snowflake,Payment Service,50.21
+APP034,Palo Alto Networks,Finance Portal,46.97
+APP035,Palo Alto Networks,Payment Service,46.97
+APP036,Palo Alto Networks,Analytics Platform,46.97
+APP037,Deloitte,Payment Service,35.68
+APP038,Deloitte,Finance Portal,35.68
+APP039,Deloitte,CRM Service,35.68
+APP040,EY,Finance Portal,34.27
+APP041,EY,Storage Platform,34.27
+APP042,EY,Notification Service,34.27
+APP043,KPMG,Finance Portal,34.27
+APP044,KPMG,Identity Service,34.27
+APP045,KPMG,Analytics Platform,34.27
+APP046,SAP,Search Platform,32.3
+APP047,SAP,Admin Portal,32.3
+APP048,SAP,Finance Portal,32.3
+APP049,Oracle Cloud,Admin Portal,32.16
+APP050,Oracle Cloud,Payment Service,32.16
+APP051,Oracle Cloud,Finance Portal,32.16
+APP052,Okta,Storage Platform,30.32
+APP053,Okta,CRM Service,30.32
+APP054,Okta,Search Platform,30.32
+APP055,Trend Micro,Customer Portal,27.79
+APP056,Trend Micro,Billing Service,27.79
+APP057,Trend Micro,Admin Portal,27.79
+APP058,PwC,Payment Service,27.36
+APP059,PwC,Finance Portal,27.36
+APP060,PwC,CRM Service,27.36
+APP061,TCS,Analytics Platform,25.39
+APP062,TCS,CRM Service,25.39
+APP063,TCS,Notification Service,25.39
+APP064,Zscaler,Finance Portal,24.96
+APP065,Zscaler,Admin Portal,24.96
+APP066,Zscaler,Identity Service,24.96
+APP067,PayPal,Analytics Platform,23.41
+APP068,PayPal,Customer Portal,23.41
+APP069,PayPal,HR Portal,23.41
+APP070,ServiceNow,Customer Portal,21.3
+APP071,ServiceNow,Finance Portal,21.3
+APP072,ServiceNow,Storage Platform,21.3
+APP073,Visa,Billing Service,21.16
+APP074,Visa,Customer Portal,21.16
+APP075,Visa,Notification Service,21.16
+APP076,Infosys,HR Portal,16.78
+APP077,Infosys,CRM Service,16.78
+APP078,Infosys,Analytics Platform,16.78
+APP079,Workday,Identity Service,14.95
+APP080,Workday,Finance Portal,14.95
+APP081,Workday,Search Platform,14.95
+APP082,Mastercard,Analytics Platform,14.39
+APP083,Mastercard,Search Platform,14.39
+APP084,Mastercard,Notification Service,14.39
+APP085,MongoDB,Analytics Platform,12.83
+APP086,MongoDB,HR Portal,12.83
+APP087,MongoDB,Billing Service,12.83
+APP088,Databricks,Analytics Platform,12.69
+APP089,Databricks,CRM Service,12.69
+APP090,Databricks,HR Portal,12.69
+APP091,Accenture,Notification Service,12.27
+APP092,Accenture,CRM Service,12.27
+APP093,Accenture,Identity Service,12.27
+APP094,Wipro,Search Platform,11.99
+APP095,Wipro,Billing Service,11.99
+APP096,Wipro,CRM Service,11.99
+APP097,Redis,CRM Service,11.71
+APP098,Redis,Notification Service,11.71
+APP099,Redis,HR Portal,11.71
+APP100,Ping Identity,Identity Service,10.44
+APP101,Ping Identity,Customer Portal,10.44
+APP102,Ping Identity,Storage Platform,10.44
+APP103,Stripe,Notification Service,6.63
+APP104,Stripe,Storage Platform,6.63
+APP105,Stripe,HR Portal,6.63
+APP106,Auth0,Admin Portal,4.37
+APP107,Auth0,CRM Service,4.37
+APP108,Auth0,Notification Service,4.37

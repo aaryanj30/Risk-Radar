@@ -1,0 +1,94 @@
+# =============================================
+# ENVIRONMENT & SECRETS — NEVER COMMIT THESE
+# =============================================
+backend/.env
+.env
+.env.*
+*.env
+
+# =============================================
+# PYTHON / DJANGO (backend)
+# =============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Django specific
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# =============================================
+# NODE / REACT / VITE (frontend)
+# =============================================
+frontend/node_modules/
+node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/build/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# =============================================
+# JUPYTER NOTEBOOKS (checkpoints only)
+# =============================================
+.ipynb_checkpoints/
+
+# =============================================
+# OS FILES
+# =============================================
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+
+# =============================================
+# IDE / EDITOR
+# =============================================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# =============================================
+# MISC
+# =============================================
+*.bak
+*.tmp
+*.orig
+coverage/
+.cache/
