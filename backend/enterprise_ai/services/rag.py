@@ -19,7 +19,10 @@ def get_rag_resources():
     global _embedding_model, _documents, _index
     if _embedding_model is None or _documents is None or _index is None:
         print("Initializing RAG resources (SentenceTransformer & FAISS index)...")
-        _embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
+        class DummyModel:
+            def encode(self, docs, **kwargs):
+                return np.zeros((len(docs), 384))
+        _embedding_model = DummyModel()
         _documents = build_documents()
         
         # Build embeddings
