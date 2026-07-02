@@ -37,7 +37,7 @@ class SystemStatusView(APIView):
         try:
             # Trigger lazy load/retrieval of resources
             _, documents, index = get_rag_resources()
-            faiss_total = index.ntotal if index else 0
+            faiss_total = len(index.get("vectors", [])) if isinstance(index, dict) else 0
             kb_len = len(documents) if documents else 0
             stats = system_status(faiss_total=faiss_total, knowledge_base_len=kb_len)
             return Response(stats)

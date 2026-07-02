@@ -1,11 +1,13 @@
 # pyrefly: ignore [missing-import]
-from sentence_transformers import SentenceTransformer
 from .documents import build_documents
+import numpy as np
+
 
 class DummyModel:
+    """Lightweight replacement for SentenceTransformer to avoid loading torch."""
     def encode(self, docs, **kwargs):
-        import numpy as np
         return np.zeros((len(docs), 384))
+
 model = DummyModel()
 
 

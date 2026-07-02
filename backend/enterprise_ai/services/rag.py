@@ -1,11 +1,8 @@
 import os
-import faiss
 import numpy as np
 import pandas as pd
 import networkx as nx
 from django.conf import settings
-# pyrefly: ignore [missing-import]
-from sentence_transformers import SentenceTransformer
 import google.generativeai as genai
 
 from .documents import build_documents
@@ -15,41 +12,35 @@ _embedding_model = None
 _documents = None
 _index = None
 
+
+class DummyModel:
+    """Lightweight replacement for SentenceTransformer to avoid loading torch on free-tier hosts."""
+    def encode(self, docs, **kwargs):
+        return np.zeros((len(docs), 384), dtype="float32")
+
+
 def get_rag_resources():
     global _embedding_model, _documents, _index
     if _embedding_model is None or _documents is None or _index is None:
-        print("Initializing RAG resources (SentenceTransformer & FAISS index)...")
-        class DummyModel:
-            def encode(self, docs, **kwargs):
-                return np.zeros((len(docs), 384))
+        print("Initializing RAG resources...")
         _embedding_model = DummyModel()
         _documents = build_documents()
-        
+
         # Build embeddings
-        embeddings = _embedding_model.encode(_documents, show_progress_bar=False)
+        embeddings = _embedding_model.encode(_documents)
         dimension = embeddings.shape[1]
-        
-        # Create FAISS index
-        _index = faiss.IndexFlatL2(dimension)
-        _index.add(np.array(embeddings).astype("float32"))
-        print(f"RAG resources initialized successfully. Loaded {_index.ntotal} documents into FAISS.")
-        
+
+        # Create a simple in-memory index (no faiss dependency needed)
+        _index = {"vectors": embeddings}
+        print(f"RAG resources initialized. Loaded {len(_documents)} documents.")
+
     return _embedding_model, _documents, _index
 
 
 def retrieve(query, k=5):
     model, documents, index = get_rag_resources()
-    query_embedding = model.encode([query])
-    distances, indices = index.search(
-        np.array(query_embedding).astype("float32"),
-        k
-    )
-    
-    docs = []
-    for idx in indices[0]:
-        if idx < len(documents):
-            docs.append(documents[idx])
-    return docs
+    # With dummy embeddings, just return the first k documents as context
+    return documents[:k]
 
 
 def extract_vendor(question):
@@ -68,7 +59,7 @@ def extract_vendor(question):
 def get_enterprise_graph():
     base_dir = settings.BASE_DIR
     graph_csv = os.path.join(base_dir, "enterprise_graph.csv")
-    
+
     enterprise_graph = nx.DiGraph()
     if os.path.exists(graph_csv):
         graph_df = pd.read_csv(graph_csv)
@@ -84,14 +75,14 @@ def get_enterprise_graph():
 def get_enterprise_context(vendor, graph=None):
     if graph is None:
         graph = get_enterprise_graph()
-        
+
     context = {}
     if vendor not in graph:
         return {"applications": [], "apis": [], "business_units": []}
-        
+
     apps = list(graph.successors(vendor))
     context["applications"] = apps
-    
+
     apis = []
     business_units = []
     for app in apps:
@@ -100,7 +91,7 @@ def get_enterprise_context(vendor, graph=None):
         for api in app_apis:
             bus = list(graph.successors(api))
             business_units.extend(bus)
-            
+
     context["apis"] = list(set(apis))
     context["business_units"] = list(set(business_units))
     return context
@@ -110,25 +101,25 @@ def resolve_graph_context(graph_context):
     base_dir = settings.BASE_DIR
     apps_csv = os.path.join(base_dir, "enterprise_applications.csv")
     api_csv = os.path.join(base_dir, "api_inventory.csv")
-    
+
     app_lookup = {}
     if os.path.exists(apps_csv):
         apps_df = pd.read_csv(apps_csv)
         app_lookup = dict(zip(apps_df["app_id"], apps_df["application"]))
-        
+
     api_lookup = {}
     if os.path.exists(api_csv):
         api_df = pd.read_csv(api_csv)
         api_lookup = dict(zip(api_df["api_id"], api_df["api_name"]))
-        
+
     resolved_apps = []
     for app in graph_context["applications"]:
         resolved_apps.append(app_lookup.get(app, app))
-        
+
     resolved_apis = []
     for api in graph_context["apis"]:
         resolved_apis.append(api_lookup.get(api, api))
-        
+
     return {
         "applications": resolved_apps,
         "apis": resolved_apis,
@@ -161,22 +152,22 @@ Affected Business Units:
 
 def detect_intent(question):
     q = question.lower()
-    
+
     # ---------- Analytics ----------
     if any(x in q for x in ["top", "highest", "most", "lowest", "least", "rank", "ranking", "posture", "summary"]):
         return "analytics"
-        
+
     # ---------- Simulation ----------
     elif any(x in q for x in ["simulate", "simulation", "ransomware", "breach", "attack", "what if"]):
         return "simulation"
-        
+
     return "general"
 
 
 def enterprise_ai(question):
     intent = detect_intent(question)
     vendor = extract_vendor(question)
-    
+
     # Context Builder
     if intent == "analytics":
         from .analytics import analytics_engine
@@ -216,7 +207,7 @@ def enterprise_ai(question):
         context += "\n\n" + "\n\n".join(retrieve(question, k=3))
     else:
         context = build_context(question)
-        
+
     # Confidence Score
     confidence = "High"
     if intent == "analytics":
@@ -227,16 +218,16 @@ def enterprise_ai(question):
         confidence = "Low"
     elif len(context) < 1000:
         confidence = "Medium"
-        
+
     # Build Prompt
     from .prompts import get_analyst_prompt
     prompt = get_analyst_prompt(question, context, confidence)
-    
+
     # Call Gemini API
     api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
     if not api_key:
         return "Error: Gemini API key is not configured. Please set the GEMINI_API_KEY environment variable in the backend environment."
-        
+
     try:
         genai.configure(api_key=api_key)
         model = genai.GenerativeModel("gemini-2.5-flash")
